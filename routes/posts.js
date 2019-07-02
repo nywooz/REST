@@ -14,14 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// router.get("/specific", async (req, res) => {
-//   try {
-//     const specificPost = await res.send("<h1>We are on specific post</h1>");
-//   } catch (err) {
-//     res.json({ message: err });
-//   }
-// });
-
+// SUBMITS A POST
 router.post("/", async (req, res) => {
   // create new post
   const post = new Post({
@@ -35,6 +28,39 @@ router.post("/", async (req, res) => {
     res.json(savedPost);
   } catch (err) {
     res.status(400).send(err);
+    res.json({ message: err });
+  }
+});
+
+// GET BACK SPECIFIC POST
+router.get("/:postId", async (req, res) => {
+  try {
+    const specificPost = await Post.findById(req.params.postId);
+    res.json(specificPost);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+// DELETE SPECIFIC POST
+router.delete("/:postId", async (req, res) => {
+  try {
+    const removedPost = await Post.remove({ _id: req.params.postId });
+    res.json(removedPost);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+// PATCH SPECIFIC POST
+router.patch("/:postId", async (req, res) => {
+  try {
+    const patchedPost = await Post.updateOne(
+      { _id: req.params.postId },
+      { $set: { title: req.body.title } }
+    );
+    res.json(patchedPost);
+  } catch (err) {
     res.json({ message: err });
   }
 });
