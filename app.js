@@ -4,16 +4,19 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 require("dotenv/config");
 
+// Middlewares
+app.use(cors());
 // everytime a request is made, run bodyParser
 app.use(bodyParser.json());
 
 // import Routes
 const postsRoute = require("./routes/posts");
 
-// Middlewares-Functions that execute when a route is being hit
+// Middleware-Function that execute when this route is being hit
 app.use("/posts", postsRoute);
 
 // ROUTES
@@ -53,3 +56,25 @@ DELETE	Delete
 
 //How to start listenning to the server
 app.listen(3000);
+
+// sandbox code
+/**
+ * 
+ * 
+ * 
+ * 
+  
+ 
+ fetch("http://localhost:3000/posts")
+  .then(result => {
+    console.log(result.json());
+  })
+  .then(data => {
+    console.log(data);
+  }); 
+
+
+
+  
+ * 
+ */
